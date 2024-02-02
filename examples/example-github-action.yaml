@@ -1,0 +1,23 @@
+---
+name: Example Action
+description: Echo input back as output
+env:
+  EXAMPLE_WORKFLOW_VAR: Workflow level var
+inputs:
+  example-input:
+    description: Example input
+    required: true
+    type: string
+runs:
+  using: "composite"
+  env:
+    EXAMPLE_JOB_VAR: Job level var
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+    with:
+      go-version: '^1.16.1' # The Go version to download (if necessary)   
+    - name: echo
+      run: go run echo.go
+        env:
+          EXAMPLE_STEP_VAR: Step level var
