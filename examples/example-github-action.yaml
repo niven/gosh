@@ -18,9 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
-      with:
-        go-version: '^1.16.1' # The Go version to download (if necessary)   
+        with:
+          go-version: '^1.16.1' # The Go version to download (if necessary)
       - name: echo
         run: go run example.go
-          env:
-            EXAMPLE_STEP_VAR: Step level var
+        env:
+          EXAMPLE_STEP_VAR: Step level var
