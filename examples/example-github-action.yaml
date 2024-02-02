@@ -3,10 +3,11 @@ name: Example Go Workflow
 on:
   workflow_dispatch:
     inputs:
-      example-input:
-        description: Example input
+      example-input-string:
+        description: Example input string
         required: true
         type: string
+        default: 'Hello, Gosh!'
 env:
   EXAMPLE_WORKFLOW_VAR: Workflow level var
 jobs:
@@ -24,6 +25,6 @@ jobs:
           cd ./.github/workflows
           go mod init example.go
           go mod tidy
-          go run example.go        
+          go run example.go
         env:
           EXAMPLE_STEP_VAR: Step level var
