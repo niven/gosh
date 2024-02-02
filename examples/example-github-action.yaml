@@ -2,14 +2,14 @@
 name: Example Workflow
 description: Echo input back as output, print some things
 on:
-  workflow-dispatch
-env:
-  EXAMPLE_WORKFLOW_VAR: Workflow level var
-inputs:
-  example-input:
-    description: Example input
-    required: true
-    type: string
+  workflow-dispatch:
+    env:
+      EXAMPLE_WORKFLOW_VAR: Workflow level var
+    inputs:
+      example-input:
+        description: Example input
+        required: true
+        type: string
 jobs:
   example-job:
     runs-on: [self-hosted]
