@@ -1,8 +1,8 @@
 ---
-name: Example Workflow
+name: Example Go Workflow
 description: Echo input back as output, print some things
 on:
-  workflow-dispatch:
+  workflow_dispatch:
     env:
       EXAMPLE_WORKFLOW_VAR: Workflow level var
     inputs:
