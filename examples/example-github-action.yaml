@@ -2,13 +2,13 @@
 name: Example Go Workflow
 on:
   workflow_dispatch:
-    env:
-      EXAMPLE_WORKFLOW_VAR: Workflow level var
     inputs:
       example-input:
         description: Example input
         required: true
         type: string
+env:
+  EXAMPLE_WORKFLOW_VAR: Workflow level var
 jobs:
   example-job:
     runs-on: [self-hosted]
@@ -20,6 +20,10 @@ jobs:
         with:
           go-version: '^1.16.1' # The Go version to download (if necessary)
       - name: echo
-        run: go run example.go
+        run: |
+          cd ./.github/workflows
+          go mod init example.go
+          go mod tidy
+          go run example.go        
         env:
           EXAMPLE_STEP_VAR: Step level var
