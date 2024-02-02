@@ -1,6 +1,5 @@
 ---
 name: Example Go Workflow
-description: Echo input back as output, print some things
 on:
   workflow_dispatch:
     env:
