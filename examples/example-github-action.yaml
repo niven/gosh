@@ -1,6 +1,8 @@
 ---
-name: Example Action
-description: Echo input back as output
+name: Example Workflow
+description: Echo input back as output, print some things
+on:
+  workflow-dispatch
 env:
   EXAMPLE_WORKFLOW_VAR: Workflow level var
 inputs:
@@ -8,16 +10,17 @@ inputs:
     description: Example input
     required: true
     type: string
-runs:
-  using: "composite"
-  env:
-    EXAMPLE_JOB_VAR: Job level var
-  steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
-    with:
-      go-version: '^1.16.1' # The Go version to download (if necessary)   
-    - name: echo
-      run: go run echo.go
-        env:
-          EXAMPLE_STEP_VAR: Step level var
+jobs:
+  example-job:
+    runs-on: [self-hosted]
+    env:
+      EXAMPLE_JOB_VAR: Job level var
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+      with:
+        go-version: '^1.16.1' # The Go version to download (if necessary)   
+      - name: echo
+        run: go run example.go
+          env:
+            EXAMPLE_STEP_VAR: Step level var
