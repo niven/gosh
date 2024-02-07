@@ -23,7 +23,11 @@ type GithubEnv struct {
 	// The path on the runner to the file that sets the current step's outputs from workflow commands. This file is unique to the current step and changes for each step in a job.
 	OutputFilePath string `env:"GITHUB_OUTPUT"`
 
-	WorkflowRef string `env:"GITHUB_WORKFLOW_REF"`
+	// This should be a path to the file that is the current workflow, but this is not set (documentation is lying)
+	// WorkflowRef string `env:"GITHUB_WORKFLOW_REF"`
+
+	// Name of the current workflow
+	Workflow string `env:"GITHUB_WORKFLOW"`
 }
 
 func GetDefaultEnvironmentVariables() (GithubEnv, error) {

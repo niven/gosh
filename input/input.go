@@ -1,8 +1,11 @@
 package input
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -45,23 +48,32 @@ func inputFromYAMLMap(input string, data map[string]interface{}) (Input, error) 
 	}, nil
 }
 
-func readYAML(file string) error {
+func readYAML(workflowName string) error {
 
-	if yamldata != nil {
-		return nil
+	// Since github doesn't actually pass the path of the current workflow, we have to use the name to
+	// find the file
+	matches, err := filepath.Glob("*.yaml")
+	// fmt.Printf("Found %d yaml files\n", len(matches))
+	var correctFile []byte
+	for _, f := range matches {
+		// fmt.Println("Checking: " + f)
+		yamlFile, err := os.ReadFile(f)
+		if err != nil {
+			return err
+		}
+		if bytes.Contains(yamlFile, []byte(workflowName)) {
+			correctFile = yamlFile
+			break
+		}
 	}
 
-	yamlFile, err := os.ReadFile(file)
-	if err != nil {
-		return err
+	if correctFile == nil {
+		return errors.New(fmt.Sprintf("No workflow file found with name: %s", workflowName))
 	}
 
 	yamldata = make(map[string]interface{})
-	err = yaml.Unmarshal(yamlFile, yamldata)
-	if err != nil {
-		return err
-	}
-	return nil
+	err = yaml.Unmarshal(correctFile, yamldata)
+	return err
 }
 
 // https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_dispatchinputsinput_idtype
@@ -72,12 +84,13 @@ env:
 
 We should warn I guess if that is not the case. Quite annoying as inputs has all the metadata
 */
-func Read(workflowFilePath string) (map[string]Input, error) {
-	err := readYAML(workflowFilePath)
+func Read(workflowName string) (map[string]Input, error) {
+	err := readYAML(workflowName)
 	if err != nil {
 		return nil, err
 	}
 	result := make(map[string]Input)
+
 	inputs := yamldata["on"].(map[string]interface{})["workflow_dispatch"].(map[string]interface{})["inputs"].(map[string]interface{})
 
 	for k, v := range inputs {
