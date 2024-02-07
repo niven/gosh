@@ -52,7 +52,8 @@ func readYAML(workspace, workflowName string) error {
 
 	// Since github doesn't actually pass the path of the current workflow, we have to use the name to
 	// find the file
-	matches, err := filepath.Glob(fmt.Sprintf("%s/.github/workflows/*.yaml", workspace))
+	glob := fmt.Sprintf("%s/.github/workflows/*.yaml", workspace)
+	matches, err := filepath.Glob(glob)
 	// fmt.Printf("Found %d yaml files\n", len(matches))
 	var correctFile []byte
 	for _, f := range matches {
@@ -68,7 +69,7 @@ func readYAML(workspace, workflowName string) error {
 	}
 
 	if correctFile == nil {
-		return errors.New(fmt.Sprintf("No workflow file found with name: %s", workflowName))
+		return errors.New(fmt.Sprintf("No workflow file found with name: %s, looked in %s", workflowName, glob))
 	}
 
 	yamldata = make(map[string]interface{})
