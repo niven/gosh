@@ -27,7 +27,7 @@ func inputFromYAMLMap(input string, data map[string]interface{}) (Input, error) 
 
 	// the input data should be added to the env prefixed with "INPUT_"
 
-	replacedInput := regexp.MustCompile("[^\\W]").ReplaceAll([]byte(strings.ToUpper(input)), []byte("_"))
+	replacedInput := regexp.MustCompile("[^\\w]").ReplaceAll([]byte(strings.ToUpper(input)), []byte("_"))
 	variable := fmt.Sprintf("INPUT_%s", replacedInput)
 	fmt.Printf("Looking for %s\n", variable)
 	value := data["default"]
@@ -45,23 +45,23 @@ func inputFromYAMLMap(input string, data map[string]interface{}) (Input, error) 
 	}, nil
 }
 
-func readYAML(file string) (map[string]interface{}, error) {
+func readYAML(file string) error {
 
 	if yamldata != nil {
-		return yamldata, nil
+		return nil
 	}
 
 	yamlFile, err := os.ReadFile(file)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	yamldata := make(map[string]interface{})
+	yamldata = make(map[string]interface{})
 	err = yaml.Unmarshal(yamlFile, yamldata)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return yamldata, nil
+	return nil
 }
 
 // https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_dispatchinputsinput_idtype
@@ -73,16 +73,14 @@ env:
 We should warn I guess if that is not the case. Quite annoying as inputs has all the metadata
 */
 func Read(workflowFilePath string) (map[string]Input, error) {
-	data, err := readYAML(workflowFilePath)
+	err := readYAML(workflowFilePath)
 	if err != nil {
 		return nil, err
 	}
-	println("yaml: %d", yamldata)
 	result := make(map[string]Input)
-	inputs := data["on"].(map[string]interface{})["workflow_dispatch"].(map[string]interface{})["inputs"].(map[string]interface{})
+	inputs := yamldata["on"].(map[string]interface{})["workflow_dispatch"].(map[string]interface{})["inputs"].(map[string]interface{})
 
 	for k, v := range inputs {
-		fmt.Printf("input k %s = %v\n", k, v)
 		result[k], err = inputFromYAMLMap(k, v.(map[string]interface{}))
 		if err != nil {
 			return result, err
