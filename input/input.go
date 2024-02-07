@@ -48,11 +48,11 @@ func inputFromYAMLMap(input string, data map[string]interface{}) (Input, error) 
 	}, nil
 }
 
-func readYAML(workflowName string) error {
+func readYAML(workspace, workflowName string) error {
 
 	// Since github doesn't actually pass the path of the current workflow, we have to use the name to
 	// find the file
-	matches, err := filepath.Glob("*.yaml")
+	matches, err := filepath.Glob(fmt.Sprintf("%s/*.yaml", workspace))
 	// fmt.Printf("Found %d yaml files\n", len(matches))
 	var correctFile []byte
 	for _, f := range matches {
@@ -84,8 +84,8 @@ env:
 
 We should warn I guess if that is not the case. Quite annoying as inputs has all the metadata
 */
-func Read(workflowName string) (map[string]Input, error) {
-	err := readYAML(workflowName)
+func Read(workspace, workflowName string) (map[string]Input, error) {
+	err := readYAML(workspace, workflowName)
 	if err != nil {
 		return nil, err
 	}
@@ -100,10 +100,4 @@ func Read(workflowName string) (map[string]Input, error) {
 		}
 	}
 	return result, nil
-}
-
-func ReadEnvironmentVariables(workflowFilePath string) (map[string]string, error) {
-
-	return nil, nil
-
 }

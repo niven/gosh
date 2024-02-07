@@ -28,6 +28,9 @@ type GithubEnv struct {
 
 	// Name of the current workflow
 	Workflow string `env:"GITHUB_WORKFLOW"`
+
+	// The working directory
+	Workspace string `env:"GITHUB_WORKSPACE"`
 }
 
 func GetDefaultEnvironmentVariables() (GithubEnv, error) {

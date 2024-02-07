@@ -30,7 +30,7 @@ func New() (Gosh, error) {
 		return Gosh{}, errors.New(fmt.Sprintf("Unable to read defaults: %v", err))
 	}
 	result.Environment = env.ReadEnvironmentVariables()
-	result.Input, err = input.Read(result.Defaults.Workflow)
+	result.Input, err = input.Read(result.Defaults.Workspace, result.Defaults.Workflow)
 	if err != nil {
 		return Gosh{}, errors.New(fmt.Sprintf("Unable to parse inputs: %v", err))
 	}
