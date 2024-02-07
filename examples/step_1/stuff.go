@@ -10,7 +10,7 @@ func main() {
 
 	g, err := gosh.New()
 	if err != nil {
-		fmt.Printf("err: %v\n", err)
+		fmt.Printf("Error creating gosh: %v\n", err)
 		return
 	}
 
