@@ -23,19 +23,21 @@ jobs:
       EXAMPLE_JOB_VAR: Job level var
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v4
         with:
           go-version: '^1.16.1' # The Go version to download (if necessary)
-      - name: Setup Go modules
-        run: |
-          cd ./.github/workflows
-          go mod init step_1/example.go
-          go mod init step_2/example.go
-          go mod tidy
       - name: First Go step 
-          go run step_1/stuff.go
+        run: |
+          cd ./.github/workflows/step_1
+          go mod init stuff.go
+          go mod tidy
+          go run stuff.go
         env:
           EXAMPLE_STEP_VAR: Step level var
-          INPUT_EXAMPLE_INPUT_STRING_PROPAGATED: '{{inputs.example-input-string-propagated}}'
+          INPUT_EXAMPLE_INPUT_STRING_PROPAGATED: ${{inputs.example-input-string-propagated}}
       - name: Second Go step 
-          go run step_2/more_stuff.go
+        run: |
+          cd ./.github/workflows/step_2
+          go mod init more_stuff.go
+          go mod tidy
+          go run more_stuff.go

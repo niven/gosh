@@ -1,6 +1,8 @@
 package gosh
 
 import (
+	"fmt"
+
 	"github.com/niven/gosh/env"
 	"github.com/niven/gosh/githubenv"
 	"github.com/niven/gosh/input"
@@ -23,6 +25,7 @@ func New() (Gosh, error) {
 	var err error
 
 	result.Defaults, err = githubenv.GetDefaultEnvironmentVariables()
+	fmt.Printf("defaults: %v", result.Defaults)
 	result.Environment = env.ReadEnvironmentVariables()
 	result.Input, err = input.Read(result.Defaults.WorkflowRef)
 
