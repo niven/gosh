@@ -12,15 +12,18 @@ import (
 // See : https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 type GithubEnv struct {
 	// Always set to true.
-	CI bool `env:"CI" json:"ci"`
+	CI bool `env:"CI"`
 
 	// 	The name of the action currently running, or the id of a step. For example, for an action, __repo-owner_name-of-action-repo.
-	Action string `env:"GITHUB_ACTION" json:"github.action"`
+	Action string `env:"GITHUB_ACTION"`
 
 	// Always set to true when GitHub Actions is running the workflow. You can use this variable to differentiate when tests are being run locally or by GitHub Actions.
-	Actions bool `env:"GITHUB_ACTIONS" json:"github.actions"`
+	Actions bool `env:"GITHUB_ACTIONS"`
 
-	WorkflowRef string `env:"GITHUB_WORKFLOW_REF" json:"github.actions"`
+	// The path on the runner to the file that sets the current step's outputs from workflow commands. This file is unique to the current step and changes for each step in a job.
+	OutputFilePath string `env:"GITHUB_OUTPUT"`
+
+	WorkflowRef string `env:"GITHUB_WORKFLOW_REF"`
 }
 
 func GetDefaultEnvironmentVariables() (GithubEnv, error) {

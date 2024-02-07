@@ -3,13 +3,19 @@ name: Example Go Workflow
 on:
   workflow_dispatch:
     inputs:
-      example-input-string:
-        description: Example input string
+      example-input-string-propagated:
+        description: Example input string A
         required: true
         type: string
         default: 'Hello, Gosh!'
+      example-input-string-not-propagated:
+        description: Example input string B
+        required: true
+        type: string
+        default: 'Gosh, Hello!'
 env:
   EXAMPLE_WORKFLOW_VAR: Workflow level var
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
 jobs:
   example-job:
     runs-on: [self-hosted]
@@ -20,11 +26,16 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '^1.16.1' # The Go version to download (if necessary)
-      - name: echo
+      - name: Setup Go modules
         run: |
           cd ./.github/workflows
-          go mod init example.go
+          go mod init step_1/example.go
+          go mod init step_2/example.go
           go mod tidy
-          go run example.go
+      - name: First Go step 
+          go run step_1/stuff.go
         env:
           EXAMPLE_STEP_VAR: Step level var
+          INPUT_EXAMPLE_INPUT_STRING_PROPAGATED: '{{inputs.example-input-string-propagated}}'
+      - name: Second Go step 
+          go run step_2/more_stuff.go

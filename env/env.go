@@ -4,7 +4,17 @@ import (
 	"errors"
 	"os"
 	"regexp"
+	"strings"
 )
+
+func ReadEnvironmentVariables() map[string]string {
+	result := make(map[string]string)
+	for _, e := range os.Environ() {
+		pair := strings.SplitN(e, "=", 2)
+		result[pair[0]] = pair[1]
+	}
+	return result
+}
 
 // Opinions from here
 // https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_10_02
