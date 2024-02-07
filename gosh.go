@@ -1,4 +1,4 @@
-package github.com/niven/gosh
+package gosh
 
 import (
 	"errors"
