@@ -1,6 +1,7 @@
 package gosh
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/niven/gosh/githubenv"
@@ -24,6 +25,9 @@ func New() (Gosh, error) {
 	var err error
 
 	result.Defaults, err = githubenv.GetDefaultEnvironmentVariables()
+	if err != nil {
+		return Gosh{}, errors.New(fmt.Sprintf("Unable to read defaults: %v"))
+	}
 	fmt.Printf("defaults: %v", result.Defaults)
 	// result.Environment = env.ReadEnvironmentVariables()
 	// result.Input, err = input.Read(result.Defaults.WorkflowRef)
@@ -33,5 +37,5 @@ func New() (Gosh, error) {
 
 	// result.Slack = slackbot.New(result.Environment["SLACK_BOT_TOKEN"])
 
-	return result, err
+	return result, nil
 }
