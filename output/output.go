@@ -12,7 +12,7 @@ type Output struct {
 
 func New(filePath string) Output {
 	result := Output{filePath: filePath, data: make(map[string]any)}
-
+	result.data = map[string]any{}
 	return result
 }
 
