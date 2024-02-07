@@ -26,7 +26,7 @@ func New() (Gosh, error) {
 
 	result.Defaults, err = githubenv.GetDefaultEnvironmentVariables()
 	if err != nil {
-		return Gosh{}, errors.New(fmt.Sprintf("Unable to read defaults: %v"))
+		return Gosh{}, errors.New(fmt.Sprintf("Unable to read defaults: %v", err))
 	}
 	fmt.Printf("defaults: %v", result.Defaults)
 	// result.Environment = env.ReadEnvironmentVariables()
