@@ -9,10 +9,10 @@ import (
 
 func TestReadInputs(t *testing.T) {
 
-	_, err := input.Read("no-such-file.yaml")
+	_, err := input.Read(".", "No Such Workflow")
 	assert.Error(t, err)
 
-	inputs, err := input.Read("../examples/example-github-action.yaml")
+	inputs, err := input.Read("../examples", "Example Go Workflow")
 	assert.Nil(t, err)
 	assert.Equal(t, 2, len(inputs))
 
