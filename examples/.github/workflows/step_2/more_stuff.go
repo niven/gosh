@@ -4,6 +4,9 @@ import (
 	"fmt"
 
 	"github.com/niven/gosh"
+	"github.com/niven/gosh/github"
+	"github.com/niven/gosh/integrations"
+	"github.com/slack-go/slack"
 )
 
 func main() {
@@ -16,5 +19,9 @@ func main() {
 
 	step1Output := g.Environment["SOME_INT"]
 
-	g.Slack.Info("C04H2AH6SAU", fmt.Sprintf("Step 2: output from step 1 = %s", step1Output))
+	slack = integrations.Slackbot(g.Environment["SLACK_BOT_TOKEN"])
+
+	slack.Info("C04H2AH6SAU", fmt.Sprintf("Step 2: output from step 1 = %s", step1Output))
+
+	fmt.Println("Repo secrets: " + github.GetRepositorySecretList(fmt.Sprintf(github.GithubApiListRespositorySecrets, "", ""), ""))
 }

@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/niven/gosh"
+	"github.com/niven/gosh/integrations"
+	"github.com/slack-go/slack"
 )
 
 func main() {
@@ -25,5 +27,6 @@ func main() {
 	g.Output.Set("SOME_INPUT", g.Input["example-input-string-propagated"].Value)
 	g.Output.Commit()
 
-	g.Slack.Info("C04H2AH6SAU", "Hello from Go!")
+	slack = integrations.Slackbot(g.Environment["SLACK_BOT_TOKEN"])
+	slack.Info("C04H2AH6SAU", "Hello from Go!")
 }

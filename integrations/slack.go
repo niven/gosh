@@ -1,4 +1,4 @@
-package slackbot
+package integrations
 
 import (
 	"time"
@@ -6,18 +6,18 @@ import (
 	"github.com/slack-go/slack"
 )
 
-type SlackBot struct {
+type Slack struct {
 	client *slack.Client
 }
 
-func New(slackToken string) SlackBot {
-	result := SlackBot{
+func SlackBot(slackToken string) Slack {
+	result := Slack{
 		client: slack.New(slackToken, slack.OptionDebug(true)),
 	}
 	return result
 }
 
-func (s *SlackBot) Info(channelID string, message string) error {
+func (s *Slack) Info(channelID string, message string) error {
 	// Create the Slack attachment that we will send to the channel
 	attachment := slack.Attachment{
 		Pretext: "Pretext?",

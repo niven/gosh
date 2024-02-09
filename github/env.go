@@ -1,4 +1,4 @@
-package githubenv
+package github
 
 import (
 	"errors"

@@ -1,22 +1,21 @@
-package input_test
+package gosh
 
 import (
 	"testing"
 
-	"github.com/niven/gosh/input"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestReadInputs(t *testing.T) {
 
-	_, err := input.Read(".", "No Such Workflow")
+	_, err := Read(".", "No Such Workflow")
 	assert.Error(t, err)
 
-	inputs, err := input.Read("../examples", "Example Go Workflow")
+	inputs, err := Read("examples", "Example Go Workflow")
 	assert.Nil(t, err)
 	assert.Equal(t, 2, len(inputs))
 
-	expected := map[string]input.Input{
+	expected := map[string]Input{
 		"example-input-string-propagated": {
 			Name:      "example-input-string-propagated",
 			ValueType: "string",
@@ -30,7 +29,3 @@ func TestReadInputs(t *testing.T) {
 	}
 	assert.EqualValues(t, expected, inputs)
 }
-
-// func TestReadEnvironmentVariables(t *testing.T) {
-
-// }
