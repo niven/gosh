@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/niven/gosh/util"
+	"github.com/niven/gosh/net"
 )
 
-const GithubApiListRespositorySecrets = "https://api.github.com/repos/%s/%s/actions/secrets"
+func ApiCall(apiUrl, repository, method string) string {
+	return fmt.Sprintf("%s/%s/repos/%s", apiUrl, repository, method)
+}
 
 func GithubApiCall(url, token string, result any) error {
 
-	httpStatusCode, _, err := util.GetJsonWithHeaders(url, http.Header{
+	httpStatusCode, _, err := net.GetJsonWithHeaders(url, http.Header{
 		"Accept":               {"application/vnd.github+json"},
 		"Authorization-Type":   {fmt.Sprintf("Bearer %s", token)},
 		"X-GitHub-Api-Version": {"2022-11-28"},

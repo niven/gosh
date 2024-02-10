@@ -1,4 +1,4 @@
-package util_test
+package net_test
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/niven/gosh/util"
+	"github.com/niven/gosh/net"
 )
 
 type TMNT struct {
@@ -34,7 +34,7 @@ func TestLoadJson(t *testing.T) {
 	defer svr.Close()
 
 	turtle := TMNT{}
-	httpStatusCode, content, err := util.GetJson(svr.URL, &turtle)
+	httpStatusCode, content, err := net.GetJson(svr.URL, &turtle)
 
 	assert.Nil(t, err)
 	assert.Equal(t, httpStatusCode, http.StatusOK)
