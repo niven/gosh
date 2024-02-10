@@ -21,6 +21,13 @@ type Gosh struct {
 	Output      Output
 }
 
+func (g *Gosh) Info(message string) {
+	fmt.Printf("%s", message)
+}
+func (g *Gosh) Error(message string) {
+	fmt.Printf("::error::%s", message)
+}
+
 func New() (Gosh, error) {
 
 	result := Gosh{}
