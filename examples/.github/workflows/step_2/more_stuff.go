@@ -23,5 +23,11 @@ func main() {
 
 	slack.Info("C04H2AH6SAU", fmt.Sprintf("Step 2: output from step 1 = %s", step1Output))
 
-	fmt.Println("Repo secrets: " + github.GetRepositorySecretList(fmt.Sprintf(github.GithubApiListRespositorySecrets, "", ""), ""))
+	url := fmt.Sprintf("%s/repos/%s/actions/secrets", g.Defaults.ApiUrl, g.Defaults.ActionRepository)
+	secretNames, err := github.GetRepositorySecretList(url, g.Environment["GITHUB_TOKEN"])
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("Repo secrets: " + secretNames[])
+	}
 }
