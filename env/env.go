@@ -7,10 +7,16 @@ import (
 	"strings"
 )
 
+/*
+* Read all env vars except the github specific ones
+ */
 func ReadEnvironmentVariables() map[string]string {
 	result := make(map[string]string)
 	for _, e := range os.Environ() {
 		pair := strings.SplitN(e, "=", 2)
+		if strings.HasPrefix(pair[0], "GITHUB_") || strings.HasPrefix(pair[0], "RUNNER_") || strings.HasPrefix(pair[0], "INPUT_") {
+			continue
+		}
 		result[pair[0]] = pair[1]
 	}
 	return result

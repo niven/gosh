@@ -17,8 +17,14 @@ type GithubEnv struct {
 	// 	The name of the action currently running, or the id of a step. For example, for an action, __repo-owner_name-of-action-repo.
 	Action string `env:"GITHUB_ACTION"`
 
+	//For a step executing an action, this is the owner and repository name of the action. For example, actions/checkout.
+	ActionRepository string `env:"GITHUB_ACTION_REPOSITORY"`
+
 	// Always set to true when GitHub Actions is running the workflow. You can use this variable to differentiate when tests are being run locally or by GitHub Actions.
 	Actions bool `env:"GITHUB_ACTIONS"`
+
+	// The API URL. For example: https://api.github.com.
+	ApiUrl string `env:"GITHUB_API_URL"`
 
 	// The path on the runner to the file that sets the current step's outputs from workflow commands. This file is unique to the current step and changes for each step in a job.
 	OutputFilePath string `env:"GITHUB_OUTPUT"`

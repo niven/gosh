@@ -4,7 +4,22 @@ import (
 	"testing"
 
 	"github.com/niven/gosh/env"
+	"github.com/stretchr/testify/assert"
 )
+
+func TestReadEnvironmentVariables(t *testing.T) {
+
+	// ensure at least 1 var
+	env.Create("VAR", "VAL")
+
+	// Common prefixes
+	env.Create("GITHUB_FOO", "BAR")
+	env.Create("RUNNER_FOO", "BAR")
+	env.Create("INPUT_FOO", "BAR")
+
+	result := env.ReadEnvironmentVariables()
+	assert.LessOrEqual(t, 4, len(result))
+}
 
 func TestEnvironmentVariableNames(t *testing.T) {
 
